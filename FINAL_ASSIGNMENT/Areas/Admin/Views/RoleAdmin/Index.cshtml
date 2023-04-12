@@ -1,0 +1,91 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@model IEnumerable<FINAL_ASSIGNMENT.Models.Role>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var list = ViewBag.RoleList as IEnumerable<FINAL_ASSIGNMENT.Models.Role>;
+}
+
+<h1 class="text-center title">QUẢN LÝ CHỨC VỤ</h1>
+
+<p>
+    <a asp-action="Create" class="text-right create">Thêm</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+          @*  <th>
+                @Html.DisplayNameFor(model => model.RoleId)
+            </th>*@
+            <th>
+                Tên chức vụ
+            </th>
+            <th>
+                Mô tả
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Role item in list)
+        {
+        <tr>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.RoleId)
+            </td>*@
+            <td>
+                @(item.RoleName)
+            </td>
+            <td>
+                    @(item.Description)
+            </td>
+            <td>
+                    @(item.Status == 1 ? "Hoạt động" : "Không hoạt động")
+            </td>
+            <td>
+                    <a asp-action="Detail" asp-controller="RoleAdmin" asp-area="Admin" asp-route-ID="@item.RoleId" class="function">Chi Tiết</a>
+                    <a asp-action="Edit" asp-controller="RoleAdmin" asp-area="Admin" asp-route-ID="@item.RoleId" class="function">Sửa</a>
+                    <a asp-action="Delete" asp-controller="RoleAdmin" asp-area="Admin" asp-route-ID="@item.RoleId" class="function">Xoá</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<style>
+    .title {
+        margin: 20px 0;
+        font-weight: 600;
+    }
+
+    .create {
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: #6699CC;
+        color: aliceblue;
+        font-weight: 400;
+        float: right;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 40px;
+    }
+
+    .function {
+        margin: 10px 30px;
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center
+</style>

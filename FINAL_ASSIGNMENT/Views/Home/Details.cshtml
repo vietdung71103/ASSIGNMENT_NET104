@@ -1,0 +1,116 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@using FINAL_ASSIGNMENT.Service.Implement
+@using Microsoft.AspNetCore.Http
+@model FINAL_ASSIGNMENT.Models.Product
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = SessionService.GetUserFromSession(HttpContextAccessor.HttpContext.Session, "SaveLogin") as FINAL_ASSIGNMENT.Models.User;
+}
+  
+}
+<style>
+    .detail-box {
+        margin-top: 30px;
+        box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .image-detail {
+        margin: 20px 25px;
+        overflow: hidden;
+    }
+
+        .image-detail img {
+            height: 350px;
+            max-width: 300px;
+        }
+
+    .contentDetail {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .contentDetail h2 {
+            font-weight: bold;
+            color: black;
+            border: none;
+        }
+
+        .contentDetail .priceProduct {
+            color: rgb(155, 44, 44);
+            margin-top: 15px;
+        }
+
+        .contentDetail .supplier {
+            margin-top: 15px;
+            font-size: 19px;
+        }
+
+    .avalableQuantity {
+        margin-top: 15px;
+        font-size: 19px;
+    }
+
+    .description {
+        margin-top: 25px;
+    }
+
+    .add {
+        margin-top: 40px;
+        color: black;
+    }
+
+        .add .add {
+            padding: 15px 15px;
+            background: white;
+            border: 0.5px solid grey;
+            border-radius: 15px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+            .add .add:hover {
+                color: gray;
+                background: transparent;
+                cursor: pointer;
+            }
+
+    .back {
+        float: right;
+        font-weight: bold;
+    }
+
+        .back a {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+            .back a:hover {
+                color: aliceblue;
+            }
+</style>
+<div class="container">
+<h1 class="text-center title">Details</h1>
+<div class="detail-box">
+    <div class="row">
+        <div class="image-detail col-md-4">
+            <img src="@(Model.UrlImage)" alt="Không có ảnh">
+        </div>
+        <div class="contentDetail col-md-7">
+                <h2 class="nameProduct">@(Model.Name)</h2>
+                <h5 class="priceProduct">@(Model.Price) vnđ</h5>
+                <h3 class="supplier">Supplier: @(Model.Supplier)</h3>
+                <h3 class="avalableQuantity">AvailableQuantity: @(Model.AvailableQuantity)</h3>
+                <h3>Status: @(Model.Status == 0 ? "Còn hàng" : "Hết hàng")</h3>
+            <p class="description">
+                    @(Model.Description)
+            </p>
+            <p class="add">
+                    <a asp-action="AddToCart" asp-controller="Cart" asp-route-IDProduct="@(Model.Id)" asp-route-UserId="@user.Id" class="add">ADD TO CART</a>
+            </p>
+            <a asp-action="Index" class="back">Back to List</a>
+        </div>
+
+    </div>
+</div>
+</div>

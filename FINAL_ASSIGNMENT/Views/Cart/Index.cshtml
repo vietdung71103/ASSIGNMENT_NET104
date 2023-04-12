@@ -1,0 +1,127 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@using System.Globalization
+@using FINAL_ASSIGNMENT.Service.Implement
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<FINAL_ASSIGNMENT.Models.CartDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    List < CartDetail> listcart = ViewBag.ListCartDetail;
+    List<Product> listProduct = ViewBag.ListProduct;
+    var user = SessionService.GetUserFromSession(HttpContextAccessor.HttpContext.Session, "SaveLogin") as FINAL_ASSIGNMENT.Models.User;
+}
+<style>
+    .a{
+   
+
+    }
+    .buy{
+        float: right;
+        margin-right: 30px;
+        padding: 5px 10px;
+        background: white;
+        border:0.5px solid grey;
+        margin-top: 30px;
+        border-radius: 5px;
+         text-decoration: none;
+        color: black;
+        font-weight: 300;
+    }
+</style>
+<div class="container">
+<h1 class="text-center" style="font-weight: bold; ">GIỎ HÀNG</h1>
+@if (TempData.ContainsKey("AlertMessage"))
+{
+    <div class="alert @TempData["AlertType"] alert-dismissible fade show" role="alert">
+        @TempData["AlertMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData.ContainsKey("AlertMessageDelete"))
+{
+    <div class="alert @TempData["AlertType"] alert-dismissible fade show" role="alert">
+        @TempData["AlertMessageDelete"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+@if (TempData.ContainsKey("AlertFailCreate"))
+        {
+            <div class="alert @TempData["AlertType"] alert-dismissible fade show" role="alert">
+                @TempData["AlertFailCreate"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>
+               STT
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>*@
+            <th>
+                Sản phẩm
+            </th>
+            <th>
+                Số lượng
+            </th><th>
+                Giá sản phẩm
+            </th>
+            <th>
+                Thành tiền
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var stt = 0;
+        }
+@foreach (var cartdetail in listcart) {
+        <tr>
+            <td>
+                @(stt+1)
+            </td>
+            <td>
+                   
+                @listProduct.FirstOrDefault(c=>c.Id == cartdetail.IdSP).Name
+                    
+            </td>
+            <td>
+                    
+                @(cartdetail.Quantity)
+                   
+            </td>
+            <td>
+                    
+                    @listProduct.FirstOrDefault(c=>c.Id == cartdetail.IdSP).Price
+                    
+                
+                </td>
+                <td>
+                    
+                    @(listProduct.FirstOrDefault(c=>c.Id == cartdetail.IdSP).Price *cartdetail.Quantity)
+                   
+                </td>
+            <td>  
+                  @*  @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) 
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
+                    <a asp-action="Delete" asp-controller="Cart" asp-route-id="@cartdetail.Id" asp-route-UserId="@user.Id">Xoá</a>
+            </td>
+            </tr>
+           
+        }
+        @{
+            int total = listcart.Sum(c => c.Quantity * listProduct.FirstOrDefault(d => d.Id == c.IdSP).Price);
+        }
+    </tbody>
+    <td colspan="6">
+        <h5 class="text-center">Tổng tiền: @string.Format(new CultureInfo("vi-VN"), "{0:C}", total)</h5>
+    </td>
+</table>
+<a asp-action="MuaHang" asp-controller="Bill" asp-route-UserId="@(user.Id)" class="buy">Tạo hoá đơn</a>
+
+</div>

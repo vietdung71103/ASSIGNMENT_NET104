@@ -1,0 +1,97 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@model IEnumerable<FINAL_ASSIGNMENT.Models.Bill>
+@using FINAL_ASSIGNMENT.Service.Implement
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<Bill> listBill = ViewBag.ListBill;
+    List<Product> listPr= ViewBag.ListProduct;
+    int stt = 1;
+    var user = SessionService.GetUserFromSession(HttpContextAccessor.HttpContext.Session, "SaveLogin") as FINAL_ASSIGNMENT.Models.User;
+}
+<style>
+    .dahuy a{
+        text-decoration: none;
+        padding: 5px 10px;
+        background-color: white;
+        border: 0.5px solid grey;
+        color: black;
+        font-weight: 500;
+        border-radius: 8px;
+        margin-right: 30px;
+        margin-top: 20px
+    }
+
+    .function a {
+        margin: 20px 10px;
+        text-decoration: none;
+        font-weight: 500;
+        color: black
+    }
+</style>
+@if (TempData.ContainsKey("AlertFailBuy"))
+{
+    <div class="alert @TempData["AlertType"] alert-dismissible fade show" role="alert">
+        @TempData["AlertFailBuy"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData.ContainsKey("AlertSuccessBuy"))
+{
+    <div class="alert @TempData["AlertType"] alert-dismissible fade show" role="alert">
+        @TempData["AlertSuccessBuy"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<h1 class="text-center">HOÁ ĐƠN</h1>
+
+<p class="text-right dahuy">
+    <a asp-action="BillDaHuy" asp-controller="Bill" asp-route-UserId=(@user.Id)>Hoá đơn đã huỷ</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Ngày tạo
+            </th>
+            <th>
+                Khách hàng
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in listBill) {
+        <tr>
+            <td>
+                @(stt++)
+            </td>
+            <td>
+                @(item.CreateDate)
+            </td>
+            <td>
+               @(user.FullName)
+            </td>
+            <td>
+                    @(item.Status == 0 ? "Đã thanh toán" : (item.Status == 1 ? "Đã huỷ":"Chưa thanh toán"))
+            </td>
+            <td class="function">
+               @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                    <a asp-action="Detail" asp-controller="Bill" asp-route-IdBill="@item.Id">Chi tiết</a>
+                    <a asp-action="ThanhToan" asp-controller="Bill" asp-route-UserId="@(user.Id)" asp-route-IdBill="@(item.Id)">Thanh toán</a>
+                    <a asp-action="HuyHoaDon" asp-controller="Bill" asp-route-IdBill="@(item.Id)" asp-route-UserId="@(user.Id)">Huỷ Hoá đơn</a>
+                   
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

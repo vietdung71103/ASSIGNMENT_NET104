@@ -1,0 +1,66 @@
+﻿@model FINAL_ASSIGNMENT.Models.Product
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <h4 style="font-weight:600;">CHI TIẾT SẢN PHẨM</h4>
+    <hr />
+    <div class="row">
+    <dl class="row col-md-8">
+        <dt class = "col-sm-2">
+            Tên sản phẩm:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            Giá:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            Số lượng tồn:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.AvailableQuantity)
+        </dd>
+        <dt class = "col-sm-2">
+           Trạng thái:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Status==1?"Còn hàng":"Hết hàng")
+        </dd>
+        <dt class = "col-sm-2">
+            Mô tả:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Nhà sản xuất:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Supplier)
+        </dd>
+       @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UrlImage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UrlImage)
+        </dd>*@
+    </dl>
+    <div class="col-md-4">
+        <img src="@(Model.UrlImage)" height="120px" width="120px" class="align-items-center text-center" style="margin-top: 30px;"/>
+    </div>
+    </div>
+</div>
+<div>
+    <a asp-controller="ProductAdmin" asp-action="Edit" asp-area="Admin">Sửa</a>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,77 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@model IEnumerable<FINAL_ASSIGNMENT.Models.Bill>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<User> user = ViewBag.ListUser;
+    List<Bill> bill = ViewBag.ListBill;
+}
+
+<h1 class="text-center title">HOÁ ĐƠN</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Ngày tạo hoá đơn
+            </th>
+            <th>
+                Tên khách hàng
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int stt = 0;
+        }
+@foreach (var item in bill) {
+        <tr>
+            <td>
+                @(stt+1)
+            </td>
+            <td>
+                @(item.CreateDate)
+            </td>
+            <td>
+                    @(user.FirstOrDefault(c=>c.Id == item.UserId).FullName)
+            </td>
+            <td>
+                @(item.Status)
+            </td>
+            <td id="function">
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+               @* @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<style>
+        .title {
+    margin: 20px 0;
+    font-weight: 600;
+    }
+    .function {
+        margin: 10px 30px;
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>

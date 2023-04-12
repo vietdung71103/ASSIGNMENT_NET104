@@ -1,0 +1,60 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@model IEnumerable<FINAL_ASSIGNMENT.Models.BillDetail>
+
+@{
+    ViewData["Title"] = "Detail";
+    Bill bill = ViewBag.ListBill ;
+    List<BillDetail> billDetail = ViewBag.ListBillDetail;
+    List<Product> pr = ViewBag.ListProduct;
+    int stt = 0;
+}
+
+<h1>CHI TIẾT HOÁ ĐƠN</h1>
+<table class="table">
+   @* <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdSP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>*@
+    <tbody>
+@foreach (var item in billDetail) {
+        <tr>
+            <td>
+               @(stt++)
+            </td>
+            <td>
+               <img src="@(pr.FirstOrDefault(c=>c.Id == item.IdSP).UrlImage)" height="60px" width="60px"/>
+            </td>
+            <td>
+               @(pr.FirstOrDefault(c=>c.Id == item.IdSP).Name)
+            </td>
+            <td>
+               @(item.Quantity)
+            </td>
+            <td>
+               @(pr.FirstOrDefault().Price*item.Quantity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

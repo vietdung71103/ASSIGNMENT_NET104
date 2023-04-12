@@ -1,0 +1,112 @@
+﻿@using FINAL_ASSIGNMENT.Models
+@model IEnumerable<FINAL_ASSIGNMENT.Models.Product>
+
+@{
+    ViewData["Title"] = "SẢN PHẨM";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var list = ViewBag.ListProduct;
+}
+
+<h1 class="text-center title">QUẢN LÝ SẢN PHẨM</h1>
+
+<p>
+    <a asp-action="Create" class="text-right create">Thêm</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>*@
+            <th>
+                Tên
+            </th>
+            <th>
+                Giá
+            </th>
+            <th>
+                Số lượng tồn
+            </th>
+            <th>
+               Trạng thái
+            </th>
+            <th>
+                Mô tả
+            </th>
+            <th>
+               Nhà sản xuất
+            </th>
+            <th>
+                Ảnh
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (Product item in list) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>*@
+            <td>
+                @(item.Name)
+            </td>
+            <td>
+                    @(item.Price)
+            </td>
+            <td>
+                @(item.AvailableQuantity)
+            </td>
+            <td>
+                    @(item.Status==1?"Còn hàng":"Hết hàng")
+            </td>
+            <td>
+               @(item.Description)
+            </td>
+            <td>
+               @(item.Supplier)
+            </td>
+            <td>
+                    <img src="@(item.UrlImage)" height="60px" width="60px" class="text-center" />
+            </td>
+            <td id="function">
+                    <a asp-action="Detail" asp-controller="ProductAdmin" asp-area="Admin" asp-route-id="@(item.Id)" class="function">Chi Tiết</a>
+                    <a asp-action="Edit" asp-controller="ProductAdmin" asp-area="Admin" asp-route-id="@(item.Id)" class="function">Sửa</a>
+                    <a asp-action="Delete" asp-controller="ProductAdmin" asp-area="Admin" asp-route-id="@(item.Id)" class="function">Xoá</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<style>
+    .title {
+    margin: 20px 0;
+    font-weight: 600;
+    }
+    .create{
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: #6699CC;
+        color: aliceblue;
+        font-weight: 400;
+        float: right;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 40px;
+    }
+    .function{
+        margin: 10px 30px;
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+
+     th{
+         text-align:center;
+    }
+    td{
+        text-align: center;
+    }
+</style>
